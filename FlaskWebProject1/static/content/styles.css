@@ -57,7 +57,18 @@ h1 {
 .minimized:hover {
   border: 1px solid maroon;
 }
- 
+
+.feedback {
+    margin: 4px 0 4px 0;
+}
+
+.feedback-content {
+    width: 100%;
+    display: inline-block;
+    background: #DDFDDD;
+    border: solid 1px #000000;
+}
+
 .center {
 	position: fixed;
     max-width: 95%;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="static/content/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="static/content/favicon.ico" type="image/x-icon">
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/content/styles.css">
+        <title>Comments</title>
+    </head>
+    <body>
+    <div class="main">
+            <div class="navbar navbar-inverse navbar-static-top">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                      <li><a href="base">Home</a></li>
+                      <li><a href="news">News</a></li>
+                      <li><a href="contact">Contact</a></li>
+                      <li><a href="gallery">Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container">
+                <form class="form-horizontal" method="post">
+                    <div class="form-group">
+                        <div class="col-lg-5">
+                            <label for="nickname">Nickname</label>
+                            <input class="form-control" id="nickname" type="text" name="nickname" placeholder="Anonymous">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-5">
+                            <label for="text_area">Input text here</label>
+                            <textarea class="form-control" id="text_area" name="text_area" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Send feedback.</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% for feedback_info in data %}
+        <div class="container">
+            <div class="feedback">
+                <div class="feedback-content">
+                    <div>{{ feedback_info.sender + " " + feedback_info.date.strftime("%Y-%m-%d %H:%M:%S") }}</div>
+                    <div>{{ feedback_info.text }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="footer">
+            <div class="container">
+                <div class="text">
+                    <a href="comments">Оставить комментарий о странице.</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
