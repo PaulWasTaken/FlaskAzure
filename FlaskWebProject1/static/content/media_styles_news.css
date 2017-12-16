@@ -1,0 +1,27 @@
+.text {
+	font-size: 4em;
+}
+
+@media (min-width: 2560px) {
+	.text {
+		font-size: 6em;
+	}
+}
+
+@media (min-width: 3440px) {
+	.text {
+		font-size: 8em;
+	}
+}
+
+@media (max-width: 720px) {
+	.text {
+		font-size: 3em;
+	}
+}
+
+@media (max-width: 360px) {
+	.text {
+		font-size: 2em;
+	}
+}
