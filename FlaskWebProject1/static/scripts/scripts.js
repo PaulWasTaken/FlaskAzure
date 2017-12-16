@@ -2,6 +2,7 @@ var increased = false;
 var isHelping = false;
 var maxImageNumber = 6;
 var minImageNumber = 1;
+var loadingImgSource = 'https://www.function1.com/sites/default/files/wp-content/uploads/2013/04/Loading-Data.png'
 
 function createHelpMsg() {
     var helpBody = "Click on preview to increase.";
@@ -22,6 +23,11 @@ function createHelpMsg() {
     div.innerHTML += modal;
     isHelping = true;
     return div;
+}
+
+function imageLoaded(image, loading) {
+    remove(loading);
+    image.style.visibility = "visible";
 }
 
 function remove(element) {
@@ -58,13 +64,30 @@ function maximize(element){
     var overlay = document.createElement('div');
     overlay.id = "overlay";
     overlay.onclick = closeMax;
+
     var magnified = document.createElement('div');
     magnified.id = "magnify";
+
+    var loadingImageDiv = document.createElement('div');
+    loadingImageDiv.id = 'loading'
+
+    var loadingImage = document.createElement('img');
+    loadingImage.src = loadingImgSource;
+    loadingImage.id = "loading";
+
+    loadingImageDiv.appendChild(loadingImage);
+
     var img = document.createElement('img');
     img.src = element.src;
+    img.style.visibility = 'hidden';
+    img.onload = function() {
+        imageLoaded(img, loadingImageDiv);
+    };
+
     magnified.appendChild(img);
     document.body.appendChild(overlay);
     document.body.appendChild(magnified);
+    document.body.appendChild(loadingImageDiv);
     var divWidth = document.getElementById("magnify").offsetWidth;
     document.querySelector('#magnify').style.left = (document.body.clientWidth - divWidth)/2 + 'px';
     document.querySelector('#magnify').style.top = (document.body.clientHeight - divWidth)/2 + 'px';
