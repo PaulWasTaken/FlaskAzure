@@ -1,4 +1,5 @@
 from collections import namedtuple
+from datetime import datetime
 from threading import Timer
 
 VisitInfo = namedtuple("VisitInfo", "today_total unique_today total "
@@ -9,7 +10,7 @@ class IpTracker:
     def __init__(self):
         self.last_posted_ip = set()
         self.last_visited_ip = set()
-        self.unique_ips = set()
+        self.unique_ips = {}
 
     def track_ip(self, ip_from, posted, timeout=10):
         if posted:
@@ -21,8 +22,10 @@ class IpTracker:
                   lambda: self.last_visited_ip.remove(ip_from)).start()
 
     def update_unique(self, ip):
-        if ip not in self.unique_ips:
-            self.unique_ips.add(ip)
+        self.unique_ips[ip] = datetime.now()
+
+    def get_last_visited_time(self, ip):
+        return self.unique_ips[ip]
 
 
 class IpStorage:

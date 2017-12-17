@@ -46,7 +46,8 @@ def comments():
     if ip_from not in ip_tracker.last_visited_ip:
         ip_tracker.track_ip(ip_from, posted=False)
         ip_storage.update(ip_from not in ip_tracker.unique_ips)
-        ip_tracker.update_unique(ip_from)
+
+    ip_tracker.update_unique(ip_from)
 
     if request.method == 'POST':
         if ip_from not in ip_tracker.last_posted_ip and request.form['text_area']:
@@ -61,4 +62,5 @@ def comments():
 
     return render_template("comments.html",
                            data=FEEDBACK_STORAGE[request.args["from"]],
-                           visit_info=ip_storage.get_stats())
+                           visit_info=ip_storage.get_stats(),
+                           last_time=ip_tracker.get_last_visited_time(ip_from))

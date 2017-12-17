@@ -51,6 +51,12 @@
                             Unique visitors today: {{ visit_info.unique_today }}<br>
                             Total visitors: {{ visit_info.total }}<br>
                             Total unique visitors: {{ visit_info.unique_total }}<br>
+                            <div>
+                                Your last visit: {{
+                                last_time.strftime("%Y-%m-%d %H:%M:%S") if
+                                last_time else "It is your first visit. Feel
+                                sorry." }}
+                            </div>
                         </div>
                     </div>
                 </div>
