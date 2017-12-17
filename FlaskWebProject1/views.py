@@ -6,7 +6,7 @@ from datetime import datetime
 from flask import render_template, request
 from FlaskWebProject1 import app
 from FlaskWebProject1.ip_workers import IpTracker, IpStorage
-from threading import Timer
+from re import sub
 from werkzeug.utils import redirect
 
 FeedbackInfo = namedtuple("FeedbackInfo", "sender date text")
@@ -54,8 +54,8 @@ def comments():
             nickname = request.form['nickname']
             if not nickname:
                 nickname = 'Anonymous'
-            record = FeedbackInfo(nickname, datetime.now(),
-                                  request.form['text_area'])
+            feedback = sub('<[^<]+?>', '', request.form['text_area'])
+            record = FeedbackInfo(nickname, datetime.now(), feedback)
             FEEDBACK_STORAGE[request.args["from"]].append(record)
         return redirect(request.full_path)
 
