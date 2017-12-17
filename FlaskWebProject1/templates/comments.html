@@ -23,6 +23,7 @@
                 </div>
             </div>
             <div class="container">
+                <div class="left">
                 <form class="form-horizontal" method="post">
                     <div class="form-group">
                         <div class="col-lg-5">
@@ -42,10 +43,22 @@
                         </div>
                     </div>
                 </form>
+                </div>
+                <div class="right">
+                    <div class="data-container">
+                        <div>
+                            Visited today: {{ visit_info.today_total }}<br>
+                            Unique visitors today: {{ visit_info.unique_today }}<br>
+                            Total visitors: {{ visit_info.total }}<br>
+                            Total unique visitors: {{ visit_info.unique_total }}<br>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
             </div>
         {% for feedback_info in data %}
         <div class="container">
-            <div class="feedback">
+            <div class="data-container">
                 <div class="feedback-content">
                     <div>{{ feedback_info.sender + " " + feedback_info.date.strftime("%Y-%m-%d %H:%M:%S") }}</div>
                     <div>{{ feedback_info.text }}</div>
@@ -57,7 +70,7 @@
         <div class="footer">
             <div class="container">
                 <div class="text">
-                    <a href="comments">Оставить комментарий о странице.</a>
+                    <a href="comments?from=comments">Оставить комментарий о странице.</a>
                 </div>
             </div>
         </div>
