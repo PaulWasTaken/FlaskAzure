@@ -3,11 +3,10 @@ Routes and views for the flask application.
 """
 from collections import namedtuple
 from datetime import datetime
-from flask import render_template, request
+from flask import render_template, request, json
 from FlaskWebProject1 import app
 from FlaskWebProject1.ip_workers import IpTracker, IpStorage
 from re import sub
-from werkzeug.utils import redirect
 
 FeedbackInfo = namedtuple("FeedbackInfo", "sender date text")
 
@@ -55,10 +54,12 @@ def comments():
             nickname = request.form['nickname']
             if not nickname:
                 nickname = 'Anonymous'
+            else:
+                nickname = sub('<[^<]+?>', '', request.form['nickname'])
             feedback = sub('<[^<]+?>', '', request.form['text_area'])
             record = FeedbackInfo(nickname, datetime.now(), feedback)
             FEEDBACK_STORAGE[request.args["from"]].append(record)
-        return redirect(request.full_path)
+        return json.dumps(FEEDBACK_STORAGE[request.args["from"]])
 
     return render_template("comments.html",
                            data=FEEDBACK_STORAGE[request.args["from"]],
