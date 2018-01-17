@@ -11,6 +11,7 @@
         <title>Comments</title>
         <script type="text/javascript" src="static/scripts/ajax.js"></script>
         <script type="text/javascript" src="static/scripts/use_ajax.js"></script>
+        <script type="text/javascript" src="static/scripts/screen_info.js"></script>
     </head>
     <body>
         <div class="main">
@@ -54,10 +55,15 @@
                                 Total visitors: {{ visit_info.total }}<br>
                                 Total unique visitors: {{ visit_info.unique_total }}<br>
                                 <div>
+                                    <br>
                                     Your last visit: {{
                                     last_time.strftime("%Y-%m-%d %H:%M:%S") if
                                     last_time else "It is your first visit. Feel
-                                    sorry." }}
+                                    sorry." }}<br>
+                                    Your resolution is: {{ resolution }}<br>
+                                    Your browser is: {{ browser_info }}<br>
+                                    <br>
+                                    <b>I would become a paranoic.</b>
                                 </div>
                             </div>
                         </div>
