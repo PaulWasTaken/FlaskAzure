@@ -43,12 +43,6 @@ def news():
 @app.route("/comments", methods=["GET", "POST"])
 def comments():
     ip_from = request.remote_addr
-    if ip_from not in ip_tracker.last_visited_ip:
-        ip_tracker.track_ip(ip_from, posted=False)
-        if request.method != 'POST':
-            ip_storage.update(ip_from not in ip_tracker.unique_ips)
-
-    ip_tracker.update_unique(ip_from)
 
     if request.method == 'POST':
         if ip_from not in ip_tracker.last_posted_ip and request.form['text_area']:
@@ -61,6 +55,12 @@ def comments():
             record = FeedbackInfo(nickname, datetime.now(), feedback)
             FEEDBACK_STORAGE[request.args["from"]].append(record)
         return json.dumps(FEEDBACK_STORAGE[request.args["from"]])
+    else:
+        if ip_from not in ip_tracker.last_visited_ip:
+            ip_tracker.track_ip(ip_from, posted=False)
+            ip_storage.update(ip_from not in ip_tracker.unique_ips)
+
+        ip_tracker.update_unique(ip_from)
 
     resolution = "%sx%s" % (request.cookies['width'],
                             request.cookies['height'])
