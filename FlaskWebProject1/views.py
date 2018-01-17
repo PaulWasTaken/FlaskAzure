@@ -6,7 +6,7 @@ from datetime import datetime
 from flask import render_template, request, json
 from FlaskWebProject1 import app
 from FlaskWebProject1.ip_workers import IpTracker, IpStorage
-from re import sub
+from FlaskWebProject1.text_filter import StringProcessor
 
 FeedbackInfo = namedtuple("FeedbackInfo", "sender date text")
 
@@ -16,6 +16,7 @@ FEEDBACK_STORAGE = {"comments": [],
 
 ip_storage = IpStorage()
 ip_tracker = IpTracker()
+string_processor = StringProcessor()
 
 
 @app.route("/")
@@ -42,24 +43,23 @@ def news():
 @app.route("/comments", methods=["GET", "POST"])
 def comments():
     ip_from = request.remote_addr
-    if ip_from not in ip_tracker.last_visited_ip:
-        ip_tracker.track_ip(ip_from, posted=False)
-        ip_storage.update(ip_from not in ip_tracker.unique_ips)
-
-    ip_tracker.update_unique(ip_from)
 
     if request.method == 'POST':
         if ip_from not in ip_tracker.last_posted_ip and request.form['text_area']:
-            ip_tracker.track_ip(ip_from, posted=True)
             nickname = request.form['nickname']
             if not nickname:
                 nickname = 'Anonymous'
-            else:
-                nickname = sub('<[^<]+?>', '', request.form['nickname'])
-            feedback = sub('<[^<]+?>', '', request.form['text_area'])
+            ip_tracker.track_ip(ip_from, posted=True)
+            nickname = string_processor.shield(nickname)
+            feedback = string_processor.shield(request.form['text_area'])
             record = FeedbackInfo(nickname, datetime.now(), feedback)
             FEEDBACK_STORAGE[request.args["from"]].append(record)
         return json.dumps(FEEDBACK_STORAGE[request.args["from"]])
+    else:
+        if ip_from not in ip_tracker.last_visited_ip:
+            ip_tracker.track_ip(ip_from, posted=False)
+            ip_storage.update(ip_from not in ip_tracker.unique_ips)
+        ip_tracker.update_unique(ip_from)
 
     resolution = "%sx%s" % (request.cookies['width'],
                             request.cookies['height'])
