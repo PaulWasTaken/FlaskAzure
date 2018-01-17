@@ -61,9 +61,6 @@ def comments():
             FEEDBACK_STORAGE[request.args["from"]].append(record)
         return json.dumps(FEEDBACK_STORAGE[request.args["from"]])
 
-    resolution = "%sx%s" % (request.cookies['width'],
-                            request.cookies['height'])
-
     browser = "%s %s" % (request.user_agent.browser,
                          request.user_agent.version.split('.')[0])
 
@@ -71,5 +68,4 @@ def comments():
                            data=FEEDBACK_STORAGE[request.args["from"]],
                            visit_info=ip_storage.get_stats(),
                            last_time=ip_tracker.get_last_visited_time(ip_from),
-                           resolution=resolution,
                            browser_info=browser)
