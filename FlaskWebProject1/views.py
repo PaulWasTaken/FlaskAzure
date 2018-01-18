@@ -4,6 +4,7 @@ Routes and views for the flask application.
 from collections import namedtuple
 from datetime import datetime
 from flask import render_template, request, json
+
 from FlaskWebProject1 import app
 from FlaskWebProject1.ip_workers import IpTracker, IpStorage
 from FlaskWebProject1.text_filter import StringProcessor
@@ -52,8 +53,11 @@ def process_post(ip_from):
 
 
 def get_client_info():
-    resolution = "%sx%s" % (request.cookies['width'],
-                            request.cookies['height'])
+    try:
+        resolution = "%sx%s" % (request.cookies['width'],
+                                request.cookies['height'])
+    except KeyError:
+        resolution = "Cookie is turned off."
 
     browser = "%s %s" % (request.user_agent.browser,
                          request.user_agent.version.split('.')[0])
@@ -83,3 +87,8 @@ def comments():
                            last_time=ip_tracker.get_last_visited_time(ip_from),
                            resolution=resolution,
                            browser_info=browser)
+
+
+@app.errorhandler(Exception)
+def internal_error(error):
+    return repr(error)
