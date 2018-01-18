@@ -15,17 +15,14 @@ html, body {
 	font-size: 1.2em;
 }
 
-.footer {
+.footer, .buffer {
     width: 100%;
-}
-
-.buffer {
-    height: 0em;
+    height: 3em;
 }
 
 .main {
 	min-height: 100%;
-	margin-bottom: -6em;
+	margin-bottom: -3em;
 }
 
 img {
@@ -80,6 +77,7 @@ h1 {
     width: 100%;
     display: inline-block;
     background: #DDFDDD;
+    word-wrap: break-word;
     border: solid 1px #000000;
 }
 
