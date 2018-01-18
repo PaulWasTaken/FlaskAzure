@@ -12,7 +12,7 @@ html, body {
 }
 
 .text {
-	font-size: 2em;
+	font-size: 1.2em;
 }
 
 .footer {
@@ -55,7 +55,6 @@ h1 {
 .right {
     float: right;
     width: 30em;
-    background: #DDDDDD;
 }
 
 .minimized {
@@ -138,7 +137,7 @@ h1 {
 
 @media (min-width: 2560px) {
 	.text {
-		font-size: 3em;
+		font-size: 2em;
 	}
 	.minimized {
 		width: 300px;
@@ -148,7 +147,7 @@ h1 {
 
 @media (min-width: 3440px) {
 	.text {
-		font-size: 4em;
+		font-size: 3em;
 	}
 	.minimized {
 		width: 400px;
@@ -158,7 +157,7 @@ h1 {
 
 @media (max-width: 720px) {
 	.text {
-		font-size: 1.5em;
+		font-size: 1em;
 	}
 	.minimized {
 		width: 150px;
@@ -168,7 +167,7 @@ h1 {
 
 @media (max-width: 360px) {
 	.text {
-		font-size: 1em;
+		font-size: 0.8em;
 	}
 	.minimized {
 		width: 100px;

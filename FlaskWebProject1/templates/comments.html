@@ -49,23 +49,36 @@
                     </div>
                     <div class="right">
                         <div class="data-container">
-                            <div>
-                                Visited today: {{ visit_info.today_total }}<br>
-                                Unique visitors today: {{ visit_info.unique_today }}<br>
-                                Total visitors: {{ visit_info.total }}<br>
-                                Total unique visitors: {{ visit_info.unique_total }}<br>
-                                <div>
-                                    <br>
-                                    Your last visit: {{
-                                    last_time.strftime("%Y-%m-%d %H:%M:%S") if
-                                    last_time else "It is your first visit. Feel
-                                    sorry." }}<br>
-                                    Your resolution is: {{ resolution }}<br>
-                                    Your browser is: {{ browser_info }}<br>
-                                    <br>
-                                    <b>I would become a paranoic.</b>
-                                </div>
-                            </div>
+                            <table class="table table-condensed table-striped">
+                                <tr>
+                                    <td class="text">Visitors today</td>
+                                    <td class="text">{{ visit_info.today_total }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Unique visitors today</td>
+                                    <td class="text">{{ visit_info.unique_today }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Total visitors</td>
+                                    <td class="text">{{ visit_info.total }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Total unique visitors</td>
+                                    <td class="text">{{ visit_info.unique_total }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Last visit</td>
+                                    <td class="text">{{ last_time.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Browser</td>
+                                    <td class="text">{{ browser_info }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text">Resolution</td>
+                                    <td class="text">{{ resolution }}</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <div class="clear"></div>
@@ -73,7 +86,7 @@
             <div class="container">
                 {% for feedback_info in data %}
                 <div class="feedback-content data-container">
-                    <div>{{ feedback_info.sender + " " + feedback_info.date.strftime("%Y-%m-%d %H:%M:%S") }}</div>
+                    <div>{{ feedback_info.sender|safe + " " + feedback_info.date.strftime("%Y-%m-%d %H:%M:%S") }}</div>
                     <div>{{ feedback_info.text|safe }}</div>
                 </div>
                 {% endfor %}

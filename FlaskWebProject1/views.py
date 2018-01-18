@@ -40,20 +40,33 @@ def news():
     return render_template("news.html")
 
 
+def process_post(ip_from):
+    nickname = request.form['nickname']
+    if not nickname:
+        nickname = 'Anonymous'
+    ip_tracker.track_ip(ip_from, posted=True)
+    nickname = string_processor.shield(nickname)
+    feedback = string_processor.shield(request.form['text_area'])
+    record = FeedbackInfo(nickname, datetime.now(), feedback)
+    FEEDBACK_STORAGE[request.args["from"]].append(record)
+
+
+def get_client_info():
+    resolution = "%sx%s" % (request.cookies['width'],
+                            request.cookies['height'])
+
+    browser = "%s %s" % (request.user_agent.browser,
+                         request.user_agent.version.split('.')[0])
+    return resolution, browser
+
+
 @app.route("/comments", methods=["GET", "POST"])
 def comments():
     ip_from = request.remote_addr
 
     if request.method == 'POST':
         if ip_from not in ip_tracker.last_posted_ip and request.form['text_area']:
-            nickname = request.form['nickname']
-            if not nickname:
-                nickname = 'Anonymous'
-            ip_tracker.track_ip(ip_from, posted=True)
-            nickname = string_processor.shield(nickname)
-            feedback = string_processor.shield(request.form['text_area'])
-            record = FeedbackInfo(nickname, datetime.now(), feedback)
-            FEEDBACK_STORAGE[request.args["from"]].append(record)
+            process_post(ip_from)
         return json.dumps(FEEDBACK_STORAGE[request.args["from"]])
     else:
         if ip_from not in ip_tracker.last_visited_ip:
@@ -62,11 +75,7 @@ def comments():
 
         ip_tracker.update_unique(ip_from)
 
-    resolution = "%sx%s" % (request.cookies['width'],
-                            request.cookies['height'])
-
-    browser = "%s %s" % (request.user_agent.browser,
-                         request.user_agent.version.split('.')[0])
+    resolution, browser = get_client_info()
 
     return render_template("comments.html",
                            data=FEEDBACK_STORAGE[request.args["from"]],
